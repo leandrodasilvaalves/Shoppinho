@@ -1,7 +1,7 @@
 using System.Collections.ObjectModel;
-using src.Eventos;
+using Shoppinho.Sdk.Core.Eventos;
 
-namespace src.Entidades
+namespace Shoppinho.Sdk.Core.Entidades
 {
     public abstract class Entidade
     {

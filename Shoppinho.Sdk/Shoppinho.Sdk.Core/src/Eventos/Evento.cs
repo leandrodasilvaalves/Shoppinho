@@ -1,4 +1,4 @@
-namespace src.Eventos
+namespace Shoppinho.Sdk.Core.Eventos
 {
     public abstract class Evento
     {
