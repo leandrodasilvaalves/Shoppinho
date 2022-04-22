@@ -8,7 +8,7 @@
 
     <PropertyGroup>
         <PackageId>Shoppinho.Sdk.Core</PackageId>
-        <Version>1.0.1-beta</Version>
+        <Version>1.0.0</Version>
         <Authors>Leandro Alves</Authors>
         <Company>leandroalves86</Company>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

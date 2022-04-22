@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\Shoppinho.Sdk.Core.csproj" />
+    <ProjectReference Include="..\Shoppinho.Sdk.Core\Shoppinho.Sdk.Core.csproj" />
   </ItemGroup>
 
 </Project>
