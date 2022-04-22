@@ -1,89 +1,38 @@
-using System.Text.RegularExpressions;
+using Shoppinho.Sdk.Core.ObjValores.ObjValores.Base;
 
 namespace Shoppinho.Sdk.Core.ObjValores
 {
-    public struct Cpf
+    public class Cpf : CpfCnpjBase
     {
-        public const int TamanhoMaximo = 11;
-        public const string SquencialInvalido = "12345678909";
+        private const string SquencialInvalido = "12345678909";
 
-        public Cpf(string numero)
-        {
-            Numero = numero ?? throw new ArgumentNullException("Número do cpf");
-        }
+        public Cpf(string numero) : base(numero) { }
 
-        public string Numero { get; private set; }
+        protected override int TamanhoMaximo => 11;
 
-        public string SomenteNumeros
-        {
-            get
-            {
-                var regex = new Regex(@"[^\d+]");
-                return regex.Replace(Numero, string.Empty);
-            }
-        }
-
-        public int[] Numeros
-        {
-            get
-            {
-                var numeros = new int[TamanhoMaximo];
-                for (var i = 0; i < TamanhoMaximo; i++)
-                    numeros[i] = int.Parse(SomenteNumeros[i].ToString());
-
-                return numeros;
-            }
-        }
-
-        //https://dicasdeprogramacao.com.br/algoritmo-para-validar-cpf/
         //https://www.macoratti.net/alg_cpf.htm
-        public bool Validar()
+        public override bool Validar()
         {
-            if (!ValidarTamanho())
-                return false;
+            if (ValidarTamanho() &&
+                !TodosDigitosIguais() &&
+                (SomenteNumeros != SquencialInvalido) &&
+                VerificarPrimeiroDigito() &&
+                VerificarSegundoDigito())
+                return true;
 
-            if (TodosDigitosIguais() || SomenteNumeros == SquencialInvalido)
-                return false;
-
-            if (!VerificarPrimeiroDigito() || !VerificarSegundoDigito())
-                return false;
-
-            return true;
+            return false;
         }
-
-        private bool ValidarTamanho() => SomenteNumeros?.Length == TamanhoMaximo;
-
-        private bool VerificarPrimeiroDigito() => VerificarDigito(10, 9);
-
-        private bool VerificarSegundoDigito() => VerificarDigito(TamanhoMaximo, 10);
-
-        private bool VerificarDigito(int multiplicador, int indice)
+        
+        protected override bool VerificarPrimeiroDigito()
         {
-            var soma = 0;
-            for (var i = 0; i < indice; i++)
-                soma += (multiplicador - i) * Numeros[i];
-
-            var resto = soma % TamanhoMaximo;
-
-            if (resto == 1 || resto == 0)
-            {
-                if (Numeros[indice] != 0)
-                    return false;   
-            }
-            else if (Numeros[indice] != TamanhoMaximo - resto)
-                return false;
-
-            return true;
+            var multiplicadores = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            return VerificarDigito(9, multiplicadores);
         }
-
-        private bool TodosDigitosIguais()
+        
+        protected override bool VerificarSegundoDigito() 
         {
-            var igual = true;
-            for (var i = 1; i < TamanhoMaximo && igual; i++)
-                if (SomenteNumeros[i] != SomenteNumeros[0])
-                    igual = false;
-
-            return igual;
+            var multiplicadores = new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+            return VerificarDigito(10, multiplicadores);
         }
 
         public static implicit operator Cpf(string numero)

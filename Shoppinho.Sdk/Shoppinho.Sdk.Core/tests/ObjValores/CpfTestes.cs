@@ -3,10 +3,19 @@ using Bogus.Extensions.Brazil;
 using Shoppinho.Sdk.Core.ObjValores;
 using Xunit;
 
-namespace tests.ObjValores
+namespace Shoppinho.Sdk.Core.Testes.ObjValores
 {
-    public class CpfTestes
-    {        
+    public sealed class CpfTestes
+    {
+        private readonly Faker _faker = new Faker("pt_BR");
+
+        [Fact]
+        public void DeverSerSucessoQuandoInformarCpfValido()
+        {
+            Cpf cpf = new(_faker.Person.Cpf());
+            Assert.True(cpf.Validar());
+        }
+
         [Theory]
         [InlineData("458.598.630-80", "45859863080")]
         [InlineData("071.596.950-11", "07159695011")]
@@ -24,11 +33,10 @@ namespace tests.ObjValores
         [InlineData("000111666777888")]
         [InlineData("0")]
         [InlineData("000.000.000-0")]
-        public void DeveraSerFalsoQuandoTamanhoDiferenteDeOnze(string cpfInvalido)
+        public void DeveraFalharQuandoTamanhoDiferenteDeOnze(string cpfInvalido)
         {
             Cpf cpf = new (cpfInvalido);
-            var resultado = cpf.Validar();
-            Assert.False(resultado);
+            Assert.False(cpf.Validar());
         }
 
         [Theory]
@@ -43,48 +51,30 @@ namespace tests.ObjValores
         [InlineData("888.888.888-88")]
         [InlineData("999.999.999-99")]
 
-        public void DeveraSerFalsoQuandoTodosNumerosForemIguais(string cpfInvalido)
+        public void DeveraFalharQuandoTodosNumerosForemIguais(string cpfInvalido)
         {
             Cpf cpf = new (cpfInvalido);
-            var resultado = cpf.Validar();
-            Assert.False(resultado);
+            Assert.False(cpf.Validar());
         }
 
+        [Theory]
         [InlineData("12345678909")]
         [InlineData("123.456.789-09")]
-        public void DeveraSerFalsoQuandoInformarSequencialInvalido(string cpfInvalido)
+        public void DeveraFalharQuandoInformarSequencialInvalido(string cpfInvalido)
         {
             Cpf cpf = new (cpfInvalido);
-            var resultado = cpf.Validar();
-            Assert.False(resultado);
+            Assert.False(cpf.Validar());
         }
 
-        [Fact]
-        public void DeverSerValidoQuandoInformarCpfValido()
+       [Fact]               
+        public void DeveraFalharQuandoInformarCpfInvalido()
         {
-            var faker = new Faker("pt_BR");        
-            Cpf cpf = new(faker.Person.Cpf());                        
-            var resultado = cpf.Validar();
-            Assert.True(resultado);
-        }
+            var numero = _faker.Person.Cpf(false); 
+            int criarDigitoFake(int index) => int.Parse(numero[index].ToString()) + 1;
+            numero = $"{numero.Substring(0, 8)}{criarDigitoFake(9)}{criarDigitoFake(10)}";
 
-        //CPF Inválidos
-        //http://www.upenet.com.br/concursos/18_prevupe/Publicacao/090618_alunos%20com%20CPF%20invalidos.pdf
-        [Theory]
-        [InlineData("17734532493")]        
-        [InlineData("00135829304")]        
-        [InlineData("12070275460")]        
-        [InlineData("00138625504")]        
-        [InlineData("00127436714")]        
-        [InlineData("00136123694")]        
-        [InlineData("13090940977")]        
-        [InlineData("01303816444")]        
-        [InlineData("05531808499")]                
-        public void DeveraSerFalsoQuandoInformarCpfInvalido(string cpfInvalido)
-        {
-            Cpf cpf = new(cpfInvalido);
-            var resultado = cpf.Validar();
-            Assert.False(resultado);
+            Cpf cpf = new(numero);            
+            Assert.False(cpf.Validar());
         }
     }
 }

@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <Nullable>enable</Nullable>        
     </PropertyGroup>
 
     <PropertyGroup>
@@ -12,5 +12,5 @@
         <Authors>Leandro Alves</Authors>
         <Company>leandroalves86</Company>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    </PropertyGroup>
+    </PropertyGroup>    
 </Project>
