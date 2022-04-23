@@ -1,5 +1,5 @@
 
-namespace src.Configuracoes
+namespace Shoppinho.Lojas.Api.Configuracoes
 {
     public static class ApplicationBuilderExtensions
     {

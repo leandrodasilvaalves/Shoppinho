@@ -38,6 +38,7 @@ Todos os dados, bem como a arquitetura são baseados nas experiências que tenho
 - Kubernetes
 - ELK
 - xUnit
+- MediatR
 
 
 ## Autores
@@ -45,3 +46,4 @@ Todos os dados, bem como a arquitetura são baseados nas experiências que tenho
 
 ## Referências
 - [Equinox Project](https://github.com/EduardoPires/EquinoxProject)
+- [Versionamento Semântico 2.0.0](https://semver.org/lang/pt-BR/)

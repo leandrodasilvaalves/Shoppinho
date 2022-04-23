@@ -1,7 +1,7 @@
 using Shoppinho.Sdk.Core.Entidades;
 using Shoppinho.Sdk.Core.ObjValores;
 
-namespace src.Dominio.Entidades
+namespace Shoppinho.Lojas.Api.Dominio.Entidades
 {
     public class Loja : Entidade
     {
