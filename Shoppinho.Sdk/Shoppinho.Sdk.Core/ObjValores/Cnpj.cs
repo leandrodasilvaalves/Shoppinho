@@ -6,9 +6,9 @@ namespace Shoppinho.Sdk.Core.ObjValores
     {
         public const int TamanhoMaximo = 14;
 
-        protected Cnpj(): base(string.Empty, TamanhoMaximo){} //EF
-        public Cnpj(string numero) : base(numero, TamanhoMaximo) { }
-
+        protected Cnpj() : base(default, default, default) { } //EF
+        public Cnpj(string numero) 
+            : base(numero, TamanhoMaximo, @"00\.000\.000\/0000\-00") { }
 
         //https://www.macoratti.net/alg_cnpj.htm
         public override bool Validar()

@@ -7,15 +7,17 @@ namespace Shoppinho.Sdk.Core.ObjValores
         private const string SquencialInvalido = "12345678909";
         public const int TamanhoMaximo = 11;
 
-        public Cpf(string numero) : base(numero, TamanhoMaximo) { }
+        protected Cpf(): base(default, default, default){} //EF
 
+        public Cpf(string numero) 
+            : base(numero, TamanhoMaximo, @"000\.000\.000\-00") { }
 
         //https://www.macoratti.net/alg_cpf.htm
         public override bool Validar()
         {
             if (ValidarTamanho() &&
                 !TodosDigitosIguais() &&
-                (SomenteNumeros != SquencialInvalido) &&
+                (Numero != SquencialInvalido) &&
                 VerificarPrimeiroDigito() &&
                 VerificarSegundoDigito())
                 return true;

@@ -14,19 +14,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         {
             var cnpj = new Cnpj(_faker.Company.Cnpj());
             Assert.True(cnpj.Validar());
-        }
-
-        [Theory]
-        [InlineData("43.746.421/0001-79", "43746421000179")]
-        [InlineData("20.167.609/0001-67", "20167609000167")]
-        [InlineData("14.071.491/0001-76", "14071491000176")]
-        [InlineData("94.456.541/0001-72", "94456541000172")]
-        [InlineData("35.887.343/0001-02", "35887343000102")]
-        public void DeveraExtrairSomenteNumeros(string numeroCnpj, string valorEsperado)
-        {
-            Cpf cpf = new(numeroCnpj);
-            Assert.Equal(valorEsperado, cpf.SomenteNumeros);
-        }
+        }        
 
         [Fact]
         public void DeveraFalharquandoInformarCnpjInvalido()
@@ -68,6 +56,19 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         {
             var cnpj = new Cnpj(numero);
             Assert.False(cnpj.Validar());
+        }
+
+        [Theory]
+        [InlineData("43746421000179", "43.746.421/0001-79")]
+        [InlineData("20167609000167", "20.167.609/0001-67")]
+        [InlineData("14071491000176", "14.071.491/0001-76")]
+        [InlineData("94456541000172", "94.456.541/0001-72")]
+        [InlineData("35887343000102", "35.887.343/0001-02")]
+        [InlineData("01002003000100", "01.002.003/0001-00")]
+        public void DeveraRetornarNumeroFormatado(string numeroSemFormatacao, string valorEsperado)
+        {
+            var cnpj = new Cnpj(numeroSemFormatacao);            
+            Assert.Equal(valorEsperado, cnpj.NumeroFormatado);
         }
     }
 }

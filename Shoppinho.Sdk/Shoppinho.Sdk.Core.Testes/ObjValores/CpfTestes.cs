@@ -17,17 +17,6 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         }
 
         [Theory]
-        [InlineData("458.598.630-80", "45859863080")]
-        [InlineData("071.596.950-11", "07159695011")]
-        [InlineData("906.485.600-15", "90648560015")]
-        [InlineData("390.761.120-96", "39076112096")]
-        public void DeveraExtrairSomenteNumeros(string numeroCpf, string valorEsperado)
-        {
-            Cpf cpf = new(numeroCpf);
-            Assert.Equal(valorEsperado, cpf.SomenteNumeros);
-        }
-
-        [Theory]
         [InlineData("000.111.666-777")]
         [InlineData("000.111.666-777888")]
         [InlineData("000111666777888")]
@@ -35,7 +24,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         [InlineData("000.000.000-0")]
         public void DeveraFalharQuandoTamanhoDiferenteDeOnze(string cpfInvalido)
         {
-            Cpf cpf = new (cpfInvalido);
+            Cpf cpf = new(cpfInvalido);
             Assert.False(cpf.Validar());
         }
 
@@ -53,7 +42,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
 
         public void DeveraFalharQuandoTodosNumerosForemIguais(string cpfInvalido)
         {
-            Cpf cpf = new (cpfInvalido);
+            Cpf cpf = new(cpfInvalido);
             Assert.False(cpf.Validar());
         }
 
@@ -62,19 +51,31 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         [InlineData("123.456.789-09")]
         public void DeveraFalharQuandoInformarSequencialInvalido(string cpfInvalido)
         {
-            Cpf cpf = new (cpfInvalido);
+            Cpf cpf = new(cpfInvalido);
             Assert.False(cpf.Validar());
         }
 
-       [Fact]               
+        [Fact]
         public void DeveraFalharQuandoInformarCpfInvalido()
         {
-            var numero = _faker.Person.Cpf(false); 
+            var numero = _faker.Person.Cpf(false);
             int criarDigitoFake(int index) => int.Parse(numero[index].ToString()) + 1;
             numero = $"{numero.Substring(0, 8)}{criarDigitoFake(9)}{criarDigitoFake(10)}";
 
-            Cpf cpf = new(numero);            
+            Cpf cpf = new(numero);
             Assert.False(cpf.Validar());
+        }
+
+        [Theory]
+        [InlineData("45859863080", "458.598.630-80")]
+        [InlineData("07159695011", "071.596.950-11")]
+        [InlineData("90648560015", "906.485.600-15")]
+        [InlineData("39076112096", "390.761.120-96")]
+        [InlineData("00100200304", "001.002.003-04")]
+        public void DeveraRetornarNumeroFormatado(string numeroSemFormatacao, string valorEsperado)
+        {
+            var cpf = new Cpf(numeroSemFormatacao);            
+            Assert.Equal(valorEsperado, cpf.NumeroFormatado);
         }
     }
 }

@@ -1,25 +1,26 @@
-using System.Text.RegularExpressions;
+using Shoppinho.Sdk.Utils.Extensions;
 
 namespace Shoppinho.Sdk.Core.ObjValores.ObjValores.Base
 {
     public abstract class CpfCnpjBase
     {
-        private readonly int TamanhoMaximo;
-        protected CpfCnpjBase(string numero, int tamanhoMaximo)
+        private readonly int _tamanhoMaximo;
+        private readonly string _formatoDocumento;
+        protected CpfCnpjBase(string numero, int tamanhoMaximo, string formatoDocumento)
         {
             var documento = GetType().Name.ToUpper();
-            Numero = numero ?? throw new ArgumentNullException($"Número do {documento} não foi informado");
-            TamanhoMaximo = tamanhoMaximo;
+            Numero = numero.SomenteNumeros() ?? throw new ArgumentNullException($"Número do {documento} não foi informado");
+            _formatoDocumento = formatoDocumento ?? throw new ArgumentNullException(nameof(formatoDocumento));
+            _tamanhoMaximo = tamanhoMaximo;
         }
 
         public string Numero { get; private set; }
 
-        public string SomenteNumeros
+        public string NumeroFormatado
         {
             get
-            {
-                var regex = new Regex(@"[^\d+]");
-                return regex.Replace(Numero, string.Empty);
+            {   
+                return Convert.ToInt64(Numero).ToString(_formatoDocumento);
             }
         }
 
@@ -32,8 +33,8 @@ namespace Shoppinho.Sdk.Core.ObjValores.ObjValores.Base
         protected bool TodosDigitosIguais()
         {
             var igual = true;
-            for (var i = 1; i < TamanhoMaximo && igual; i++)
-                if (SomenteNumeros[i] != SomenteNumeros[0])
+            for (var i = 1; i < _tamanhoMaximo && igual; i++)
+                if (Numero[i] != Numero[0])
                     igual = false;
 
             return igual;
@@ -58,8 +59,8 @@ namespace Shoppinho.Sdk.Core.ObjValores.ObjValores.Base
             return false;
         }
 
-        protected bool ValidarTamanho() => SomenteNumeros?.Length == TamanhoMaximo;
+        protected bool ValidarTamanho() => Numero?.Length == _tamanhoMaximo;
 
-        private int ObterDigitoPorIndice(int indice) => int.Parse(SomenteNumeros[indice].ToString());
+        private int ObterDigitoPorIndice(int indice) => int.Parse(Numero[indice].ToString());
     }
 }
