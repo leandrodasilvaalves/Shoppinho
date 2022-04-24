@@ -1,13 +1,15 @@
 namespace Shoppinho.Sdk.Core.ObjValores
 {
-    public struct Cidade
-    {   public Cidade(string nome, Estado estado)
+    public class Cidade
+    {   
+        protected Cidade(){}//EF
+        public Cidade(string nome, string estado)
         {
             Nome = nome;
             Estado = estado;
         }
 
         public string Nome { get; private set; }
-        public Estado Estado { get; private set; }
+        public string Estado { get; private set; }
     }
 }

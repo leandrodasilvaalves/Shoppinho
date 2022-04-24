@@ -39,6 +39,7 @@ Todos os dados, bem como a arquitetura são baseados nas experiências que tenho
 - ELK
 - xUnit
 - MediatR
+- EntityFrameworkCore
 
 
 ## Autores
@@ -47,3 +48,4 @@ Todos os dados, bem como a arquitetura são baseados nas experiências que tenho
 ## Referências
 - [Equinox Project](https://github.com/EduardoPires/EquinoxProject)
 - [Versionamento Semântico 2.0.0](https://semver.org/lang/pt-BR/)
+- [The Twelve-Factor App](https://12factor.net/pt_br/)

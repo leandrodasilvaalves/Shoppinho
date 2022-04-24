@@ -3,14 +3,14 @@ using System.Text.RegularExpressions;
 namespace Shoppinho.Sdk.Core.ObjValores.ObjValores.Base
 {
     public abstract class CpfCnpjBase
-    { 
-        protected CpfCnpjBase(string numero)
+    {
+        private readonly int TamanhoMaximo;
+        protected CpfCnpjBase(string numero, int tamanhoMaximo)
         {
-            var documento =  GetType().Name.ToUpper();
-            Numero = numero  ?? throw new ArgumentNullException($"Número do {documento} não foi informado");
+            var documento = GetType().Name.ToUpper();
+            Numero = numero ?? throw new ArgumentNullException($"Número do {documento} não foi informado");
+            TamanhoMaximo = tamanhoMaximo;
         }
-
-         protected abstract int TamanhoMaximo { get; }
 
         public string Numero { get; private set; }
 

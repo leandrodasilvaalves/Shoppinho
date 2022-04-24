@@ -8,9 +8,9 @@
 
     <PropertyGroup>
         <PackageId>Shoppinho.Sdk.Core</PackageId>
-        <Version>0.2.0</Version>
+        <Version>0.1.3</Version>
         <Authors>Leandro Alves</Authors>
         <Company>leandroalves86</Company>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    </PropertyGroup>    
+    </PropertyGroup>
 </Project>

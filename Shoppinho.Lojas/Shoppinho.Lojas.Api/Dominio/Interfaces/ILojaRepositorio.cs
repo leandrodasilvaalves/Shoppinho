@@ -1,4 +1,3 @@
-
 using Shoppinho.Lojas.Api.Dominio.Entidades;
 using Shoppinho.Sdk.Core.Interfaces.Repositorios;
 

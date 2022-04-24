@@ -1,18 +1,15 @@
 namespace Shoppinho.Sdk.Core.ObjValores
 {
-    public struct Estado
+    public class Estado
     {
-        public Estado(string nome) : this()
+        protected Estado(){} //EF
+        public Estado(string nome, string sigla)
         {
+            Sigla = sigla;
             Nome = nome;
         }
 
-        public Estado(string nome, string sigla): this(nome)
-        {
-            Sigla = sigla;
-        }
-
         public string Nome { get; private set; }
-        public string? Sigla { get; private set; }
+        public string Sigla { get; private set; }
     }
 }

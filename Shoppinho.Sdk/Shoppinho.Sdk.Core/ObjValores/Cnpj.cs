@@ -4,9 +4,11 @@ namespace Shoppinho.Sdk.Core.ObjValores
 {
     public sealed class Cnpj : CpfCnpjBase
     {
-        public Cnpj(string numero) : base(numero) { }
+        public const int TamanhoMaximo = 14;
 
-        protected override int TamanhoMaximo => 14;
+        protected Cnpj(): base(string.Empty, TamanhoMaximo){} //EF
+        public Cnpj(string numero) : base(numero, TamanhoMaximo) { }
+
 
         //https://www.macoratti.net/alg_cnpj.htm
         public override bool Validar()

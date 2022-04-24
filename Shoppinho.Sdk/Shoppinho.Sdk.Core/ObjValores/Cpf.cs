@@ -5,10 +5,10 @@ namespace Shoppinho.Sdk.Core.ObjValores
     public class Cpf : CpfCnpjBase
     {
         private const string SquencialInvalido = "12345678909";
+        public const int TamanhoMaximo = 11;
 
-        public Cpf(string numero) : base(numero) { }
+        public Cpf(string numero) : base(numero, TamanhoMaximo) { }
 
-        protected override int TamanhoMaximo => 11;
 
         //https://www.macoratti.net/alg_cpf.htm
         public override bool Validar()
@@ -46,7 +46,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public static bool TryParse(string numero, out Cpf cpf)
         {
             cpf = new Cpf(numero);
-            return cpf.Validar();
+            return cpf.Validar();            
         }
     }
 }
