@@ -9,7 +9,7 @@
 
 NOME_PACOTE=Shoppinho.Sdk.Core
 NOME_PROJETO="$NOME_PACOTE.csproj"
-VERSAO_ATUAL="$(cat $NOME_PROJETO | grep -Eo "[0-9].[0-9]*.[0-9]")"
+VERSAO_ATUAL="$(cat Shoppinho.Sdk.Core.csproj | grep \<Version\> | grep -Eo "[0-9].[0-9]*.[0-9]-?[a-z]*[-.]?[0-9]*")"
 
 echo
 echo So pra voce saber, a versao atual e: $VERSAO_ATUAL

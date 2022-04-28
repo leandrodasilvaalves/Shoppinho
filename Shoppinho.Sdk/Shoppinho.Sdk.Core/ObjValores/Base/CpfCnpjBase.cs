@@ -1,8 +1,9 @@
+using Shoppinho.Sdk.Core.ObjValores.Base;
 using Shoppinho.Sdk.Utils.Extensions;
 
 namespace Shoppinho.Sdk.Core.ObjValores.ObjValores.Base
 {
-    public abstract class CpfCnpjBase
+    public abstract class CpfCnpjBase : ObjValorBase
     {
         private readonly int _tamanhoMaximo;
         private readonly string _formatoDocumento;
@@ -22,9 +23,7 @@ namespace Shoppinho.Sdk.Core.ObjValores.ObjValores.Base
             {   
                 return Convert.ToInt64(Numero).ToString(_formatoDocumento);
             }
-        }
-
-        public abstract bool Validar();
+        }        
 
         protected abstract bool VerificarPrimeiroDigito();
 

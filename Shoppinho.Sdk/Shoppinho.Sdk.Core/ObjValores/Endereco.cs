@@ -1,15 +1,22 @@
+using System.Text.RegularExpressions;
+using Shoppinho.Sdk.Core.ObjValores.Base;
+using Shoppinho.Sdk.Utils.Extensions;
+
 namespace Shoppinho.Sdk.Core.ObjValores
 {
-    public class Endereco
+    public class Endereco : ObjValorBase
     {
-        protected Endereco(){}
-        
+        public const int MinLength = 5;
+        public const int MaxLength = 100;
+        protected Endereco() { }
+
         public Endereco(
             string logradouro,
             string complemento,
             string numero,
             Cidade cidade,
-            bool principal)
+            string cep,
+            bool principal = default)
         {
             Logradouro = logradouro;
             Complemento = complemento;
@@ -17,6 +24,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
             Cidade = cidade;
             Id = Guid.NewGuid();
             Principal = principal;
+            Cep = cep.SomenteNumeros();
         }
 
         public Guid Id { get; private set; }
@@ -26,5 +34,33 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public Cidade Cidade { get; private set; }
         public string Cep { get; private set; }
         public bool Principal { get; private set; }
+
+        public override bool Validar()
+        {
+            return Cidade.Validar() &&
+                   ValidarLogradouro() &&
+                   ValidarCep();
+        }
+
+        private bool ValidarLogradouro()
+        {
+            if (Logradouro?.Length >= MinLength && Logradouro?.Length <= MaxLength)
+            {
+                return true;
+            }
+            IncluirNotificacao($"O logradouro deve ter entre {MinLength} e {MaxLength} caracteres");
+            return false;
+        }
+
+        public bool ValidarCep()
+        {
+            var regex = new Regex(@"^\d{8}$");
+            if (regex.Match(Cep).Success)
+            {
+                return true;
+            }
+            IncluirNotificacao("O cep informado é inválido");
+            return false;
+        }
     }
 }
