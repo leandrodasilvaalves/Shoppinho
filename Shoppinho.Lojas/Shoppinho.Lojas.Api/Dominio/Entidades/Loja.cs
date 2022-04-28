@@ -6,19 +6,28 @@ namespace Shoppinho.Lojas.Api.Dominio.Entidades
     public class Loja : Entidade
     {
         protected Loja(){} //EF
-        public Loja(string nomeFantasia, string razaoSocial, Cnpj cnpj)
+        public Loja(string nomeFantasia, string razaoSocial, Cnpj cnpj, List<Email> emails)
         {
             NomeFantasia = nomeFantasia;
             RazaoSocial = razaoSocial;
             CNPJ = cnpj;
+            Emails = emails;
         }
 
         public string NomeFantasia { get; private set; }
         public string RazaoSocial { get; private set; }
         public Cnpj CNPJ { get; private set; }        
         public string InscricaoEstadual { get; set; }
-        public List<Endereco> Enderecos { get; set; }
-        public List<Telefone> Telefones { get; set; }
+        public List<Endereco> Enderecos { get; set; } //TODO: trasformar para IReadOnlyCollection
+        public List<Telefone> Telefones { get; set; }  //TODO: trasformar para IReadOnlyCollection
+        public List<Email> Emails { get; private set; }  //TODO: trasformar para IReadOnlyCollection
+
+        public void IncluirEmail(string enderecoEmail, bool principal = false)
+        {
+            var email = new Email(enderecoEmail, principal);
+            //if(email.Validar())
+                Emails.Add(email);
+        }
     }
 }
 

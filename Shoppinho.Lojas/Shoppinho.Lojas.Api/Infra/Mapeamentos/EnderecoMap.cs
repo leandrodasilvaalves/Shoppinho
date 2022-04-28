@@ -10,16 +10,27 @@ namespace Shoppinho.Lojas.Api.Infra.Mapeamentos
         {
             builder.HasKey(e => e.Id);
 
+            builder.Property(e => e.Logradouro)
+                .IsRequired();
+
+            builder.Property(e => e.Numero)
+                .IsRequired();
+
             builder.OwnsOne(e => e.Cidade, tf =>
             {
                 tf.Property(e => e.Nome)
                     .HasColumnName("Cidade")                
-                    .HasColumnType("varchar(80)");
+                    .HasColumnType("varchar(80)")
+                    .IsRequired();
 
                 tf.Property(e => e.Estado)
                     .HasColumnName("Estado")
-                    .HasColumnType("varchar(2)");
+                    .HasColumnType("varchar(2)")
+                    .IsRequired();
             });
+
+            builder.Property(e => e.Cep)
+                .IsRequired();
 
             builder.ToTable("Enderecos");
         }

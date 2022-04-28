@@ -24,7 +24,8 @@ namespace Shoppinho.Lojas.Api.Infra.Mapeamentos
                 tf.Property(e => e.Numero)
                     .IsRequired()                    
                     .HasColumnName("CNPJ")
-                    .HasColumnType($"varchar({Cnpj.TamanhoMaximo})");
+                    .HasColumnType($"varchar({Cnpj.TamanhoMaximo})")
+                    .IsRequired();
             });
 
             builder.Property(e => e.InscricaoEstadual)
@@ -36,6 +37,10 @@ namespace Shoppinho.Lojas.Api.Infra.Mapeamentos
 
             builder
                 .HasMany(e => e.Telefones)
+                .WithOne();
+
+            builder
+                .HasMany(e => e.Emails)
                 .WithOne();
 
             builder.ToTable("Lojas");

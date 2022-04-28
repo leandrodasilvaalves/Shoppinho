@@ -5,8 +5,9 @@
 O objetivo deste projeto é criar uma exemplo prático de estudos basedo em arquitetura de microsserviços.
 Todos os dados, bem como a arquitetura são baseados nas experiências que tenho na utilização e-commerces. Caso coincida com alguma instituição/sistema do mundo real, mera coincidência é.
 
-
-:construction: Projeto em construção :construction:
+---
+## :construction: Projeto em construção :construction:
+---
 
 ## :hammer: Funcionalidades do projeto
 
@@ -20,6 +21,7 @@ Todos os dados, bem como a arquitetura são baseados nas experiências que tenho
 - Api de Pedido
 - Sdk (Nuget Package)
 - Webhooks
+- Serviços de parceiros (simulação)
 
 ## :sailboat: Abrir e executar o projeto
 - A definir
