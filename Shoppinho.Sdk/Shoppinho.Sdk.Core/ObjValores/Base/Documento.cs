@@ -3,11 +3,11 @@ using Shoppinho.Sdk.Utils.Extensions;
 
 namespace Shoppinho.Sdk.Core.ObjValores.ObjValores.Base
 {
-    public abstract class CpfCnpjBase : ObjValorBase
+    public abstract class Documento : ObjValorBase
     {
         private readonly int _tamanhoMaximo;
         private readonly string _formatoDocumento;
-        protected CpfCnpjBase(string numero, int tamanhoMaximo, string formatoDocumento)
+        protected Documento(string numero, int tamanhoMaximo, string formatoDocumento)
         {
             var documento = GetType().Name.ToUpper();
             Numero = numero.SomenteNumeros() ?? throw new ArgumentNullException($"Número do {documento} não foi informado");

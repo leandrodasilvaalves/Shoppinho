@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Shoppinho.Sdk.Core.Entidades;
 using Shoppinho.Sdk.Core.ObjValores;
 
@@ -5,29 +6,63 @@ namespace Shoppinho.Lojas.Api.Dominio.Entidades
 {
     public class Loja : Entidade
     {
-        protected Loja(){} //EF
-        public Loja(string nomeFantasia, string razaoSocial, Cnpj cnpj, List<Email> emails)
+
+        private readonly IList<Email> _emails;
+        private readonly IList<Telefone> _telefones;
+        private readonly IList<Endereco> _enderecos;
+
+        protected Loja() { } //EF
+        public Loja(string nomeFantasia, string razaoSocial, Cnpj cnpj)
         {
             NomeFantasia = nomeFantasia;
             RazaoSocial = razaoSocial;
             CNPJ = cnpj;
-            Emails = emails;
+            _emails = new List<Email>();
+            _telefones = new List<Telefone>();
+            _enderecos = new List<Endereco>();
         }
 
         public string NomeFantasia { get; private set; }
         public string RazaoSocial { get; private set; }
-        public Cnpj CNPJ { get; private set; }        
+        public Cnpj CNPJ { get; private set; }
         public string InscricaoEstadual { get; set; }
-        public List<Endereco> Enderecos { get; set; } //TODO: trasformar para IReadOnlyCollection
-        public List<Telefone> Telefones { get; set; }  //TODO: trasformar para IReadOnlyCollection
-        public List<Email> Emails { get; private set; }  //TODO: trasformar para IReadOnlyCollection
+        public IReadOnlyCollection<Endereco> Enderecos => new ReadOnlyCollection<Endereco>(_enderecos);
+        public IReadOnlyCollection<Telefone> Telefones => new ReadOnlyCollection<Telefone>(_telefones);
+        public IReadOnlyCollection<Email> Emails => new ReadOnlyCollection<Email>(_emails);
 
         public void IncluirEmail(string enderecoEmail, bool principal = false)
         {
             var email = new Email(enderecoEmail, principal);
-            //if(email.Validar())
-                Emails.Add(email);
+            if (email.Validar())
+            {
+                _emails.Add(email);
+            }
         }
+
+        public void RemoverEmailEmail(string enderecoEmail)
+        {
+            _emails.Remove(new Email(enderecoEmail));
+        }
+
+        //TODO: refatorar
+        //Criar metodo desacoplado com interface
+        //Incluir Notificacoes do objvalor na entidade
+        public void IncluirTelefone(Telefone telefone)
+        {
+            if (telefone.Validar())
+            {
+                _telefones.Add(telefone);
+            }
+        }
+
+        public void RemoverTelefone(Telefone telefone)
+        {
+                _telefones.Remove(telefone);
+        }
+
+
+        //TODO: add endereco/ remover endereco
+
     }
 }
 

@@ -47,5 +47,17 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
             Assert.False(telefone.Validar());
             Assert.True(telefone.Notificaoes.Count > 0);            
         }
+
+        [Theory]
+        [InlineData("+55 (61) 9.9107-7157")]
+        [InlineData("(61) 9.9107-7157")]
+        [InlineData("55 61 991077157")]
+        [InlineData("61 991077157")]
+        [InlineData("5561991077157")]
+        [InlineData("61991077157")]
+        public void DeveraServerVerdadeiroQuandoInformarUmTelefoneValidoNoTryParse(string numero)
+        {
+            Assert.True(Telefone.TryParse(numero, out var telefone));
+        }
     }
 }

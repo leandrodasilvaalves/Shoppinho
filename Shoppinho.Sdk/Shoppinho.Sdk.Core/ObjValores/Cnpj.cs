@@ -2,7 +2,7 @@ using Shoppinho.Sdk.Core.ObjValores.ObjValores.Base;
 
 namespace Shoppinho.Sdk.Core.ObjValores
 {
-    public sealed class Cnpj : CpfCnpjBase
+    public sealed class Cnpj : Documento
     {
         public const int TamanhoMaximo = 14;
 

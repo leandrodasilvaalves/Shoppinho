@@ -15,6 +15,7 @@ namespace Shoppinho.Sdk.Utils.Testes.Extensions
         [InlineData("071.596.950-11", "07159695011")]
         [InlineData("906.485.600-15", "90648560015")]
         [InlineData("390.761.120-96", "39076112096")]
+        [InlineData("+39076112096", "39076112096")]
         public void DeveraExtrairSomenteNumeros(string numeroComPontos, string valorEsperado)
         {
             Assert.Equal(valorEsperado, numeroComPontos.SomenteNumeros());

@@ -6,7 +6,7 @@ namespace Shoppinho.Sdk.Utils.Extensions
     {
         public static string SomenteNumeros(this string str)
         {
-            var regex = new Regex(@"[^\d+]");
+            var regex = new Regex(@"[^\d]");
             return regex.Replace(str, string.Empty);
         }
     }

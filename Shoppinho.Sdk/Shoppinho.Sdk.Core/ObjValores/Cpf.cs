@@ -2,7 +2,7 @@ using Shoppinho.Sdk.Core.ObjValores.ObjValores.Base;
 
 namespace Shoppinho.Sdk.Core.ObjValores
 {
-    public sealed class Cpf : CpfCnpjBase
+    public sealed class Cpf : Documento
     {
         private const string SquencialInvalido = "12345678909";
         public const int TamanhoMaximo = 11;

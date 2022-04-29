@@ -8,13 +8,13 @@
 
     <PropertyGroup>
         <PackageId>Shoppinho.Sdk.Core</PackageId>
-        <Version>0.1.4</Version>
+        <Version>0.2.1</Version>
         <Authors>Leandro Alves</Authors>
         <Company>leandroalves86</Company>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Shoppinho.Sdk.Utils" Version="0.1.0" />
+      <PackageReference Include="Shoppinho.Sdk.Utils" Version="0.1.1" />
     </ItemGroup>
 </Project>

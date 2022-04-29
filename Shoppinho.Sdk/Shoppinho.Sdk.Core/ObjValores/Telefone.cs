@@ -7,7 +7,6 @@ namespace Shoppinho.Sdk.Core.ObjValores
     public class Telefone : ObjValorBase
     {
         protected Telefone() { }
-
         public Telefone(string ddd, string numero, string codigoPais = "55", bool whatsapp = false, bool principal = false)
         {
             DDD = ddd.SomenteNumeros();
@@ -17,7 +16,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
             Principal = principal;
         }
 
-        public string CodigoPais { get; set; }
+        public string CodigoPais { get; private set; }
         public string DDD { get; private set; }
         public string Numero { get; private set; }
         public bool Whatsapp { get; private set; }
@@ -25,8 +24,8 @@ namespace Shoppinho.Sdk.Core.ObjValores
 
         public override bool Validar()
         {
-            return 
-                ValidarDDD()&&
+            return
+                ValidarDDD() &&
                 ValidarNumero() &&
                 ValidarCodigoPais();
         }
@@ -42,7 +41,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
             return false;
         }
 
-        private bool ValidarNumero() 
+        private bool ValidarNumero()
         {
             var regex = new Regex(@"^\d{9}$");
             if (regex.Match(Numero).Success)
@@ -62,6 +61,44 @@ namespace Shoppinho.Sdk.Core.ObjValores
             }
             IncluirNotificacao("O código do país informado é inválido");
             return false;
+        }
+
+        public static bool TryParse(string numeroTelefone, out Telefone telefone)
+        {
+            numeroTelefone = numeroTelefone.SomenteNumeros();
+            int CODIGO_PAIS_DDD_NUMERO = 13;
+            int DDD_NUMERO = 11;
+            telefone = new Telefone();
+            if (numeroTelefone.Length == CODIGO_PAIS_DDD_NUMERO)
+            {
+                telefone = new Telefone(
+                    codigoPais: numeroTelefone.Substring(0, 2),
+                    ddd: numeroTelefone.Substring(2, 2),
+                    numero: numeroTelefone.Substring(4)
+                );
+            }
+            else if (numeroTelefone.Length == DDD_NUMERO)
+            {
+                telefone = new Telefone(
+                    ddd: numeroTelefone.Substring(0, 2),
+                    numero: numeroTelefone.Substring(2)
+                );
+            }
+            return telefone.Validar();
+        }
+
+        public static Telefone Parse(string numeroTelefone)
+        {
+            if (TryParse(numeroTelefone, out var telefone))
+            {
+                return telefone;
+            }
+            throw new InvalidOperationException("O telefone informado é inválido");
+        }
+
+        public static implicit operator Telefone(string numero)
+        {
+           return Telefone.Parse(numero);
         }
     }
 }
