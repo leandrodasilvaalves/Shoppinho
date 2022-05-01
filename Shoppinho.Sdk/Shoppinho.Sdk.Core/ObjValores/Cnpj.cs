@@ -1,5 +1,4 @@
-using Shoppinho.Sdk.Core.ObjValores.ObjValores.Base;
-
+using Shoppinho.Sdk.Core.ObjValores.ObjValores;
 namespace Shoppinho.Sdk.Core.ObjValores
 {
     public sealed class Cnpj : Documento

@@ -1,8 +1,8 @@
 namespace Shoppinho.Sdk.Core.Notificacoes
 {
-    public class Alert : Notificacao
+    public class Alerta : Notificacao
     {
-        public Alert(string codigo, string mensagem)
+        public Alerta(string codigo, string mensagem)
             : base(codigo, mensagem) { }
     }
 }

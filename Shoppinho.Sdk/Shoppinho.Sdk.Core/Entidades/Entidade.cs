@@ -1,9 +1,11 @@
 using System.Collections.ObjectModel;
+using Shoppinho.Sdk.Core.Bases;
 using Shoppinho.Sdk.Core.Eventos;
 
 namespace Shoppinho.Sdk.Core.Entidades
 {
-    public abstract class Entidade
+    //TODO: avalidar como tornar a Endidade filho de validador
+    public abstract class Entidade : Comparavel<Entidade>
     {
         private readonly IList<Evento> _eventos = new List<Evento>();
 
@@ -12,7 +14,7 @@ namespace Shoppinho.Sdk.Core.Entidades
             Id = Guid.NewGuid();
         }
 
-        public Guid  Id { get; private set; }
+        public Guid Id { get; private set; }
         public DateTimeOffset DataCadastro { get; private set; }
         public DateTimeOffset UltimaAtualizacao { get; private set; }
         public bool Ativo { get; private set; }
@@ -24,8 +26,8 @@ namespace Shoppinho.Sdk.Core.Entidades
         }
 
         public void LimparEventos()
-        { 
-            _eventos.Clear();           
+        {
+            _eventos.Clear();
         }
 
         public void RemoverEvento(Evento @evento)
@@ -33,19 +35,7 @@ namespace Shoppinho.Sdk.Core.Entidades
             _eventos.Remove(@evento);
         }
 
-        public override bool Equals(object? obj)
-        {
-            var objComparar = obj as Entidade;
-
-            if(ReferenceEquals(this, objComparar)) return true;
-            if(ReferenceEquals(null, objComparar)) return false;
-
-            return Id.Equals(objComparar);
-        }
-
-        public override int GetHashCode()
-        {
-            return (GetType().GetHashCode() ^ 93) + Id.GetHashCode();
-        }
+        public override bool Igual(Entidade obj) => Id.Equals(obj);
+        public override int GerarHashCode() => Id.GetHashCode();
     }
 }

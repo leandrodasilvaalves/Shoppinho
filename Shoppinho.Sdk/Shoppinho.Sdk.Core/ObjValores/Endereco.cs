@@ -1,11 +1,11 @@
 using System.Text.RegularExpressions;
+using Shoppinho.Sdk.Core.Bases;
 using Shoppinho.Sdk.Core.Notificacoes;
-using Shoppinho.Sdk.Core.ObjValores.Base;
 using Shoppinho.Sdk.Utils.Extensions;
 
 namespace Shoppinho.Sdk.Core.ObjValores
 {
-    public class Endereco : ObjValorBase
+    public class Endereco : Validador
     {
         public const int MinLength = 5;
         public const int MaxLength = 100;

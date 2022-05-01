@@ -1,9 +1,9 @@
+using Shoppinho.Sdk.Core.Bases;
 using Shoppinho.Sdk.Core.Notificacoes;
-using Shoppinho.Sdk.Core.ObjValores.Base;
 
 namespace Shoppinho.Sdk.Core.ObjValores
 {
-    public class Cidade : ObjValorBase
+    public class Cidade : Validador
     {
         public const int MinLength = 5;
         public const int MaxLength = 100;

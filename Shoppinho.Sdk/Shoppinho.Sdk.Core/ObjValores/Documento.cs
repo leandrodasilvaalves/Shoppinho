@@ -1,10 +1,10 @@
+using Shoppinho.Sdk.Core.Bases;
 using Shoppinho.Sdk.Core.Notificacoes;
-using Shoppinho.Sdk.Core.ObjValores.Base;
 using Shoppinho.Sdk.Utils.Extensions;
 
-namespace Shoppinho.Sdk.Core.ObjValores.ObjValores.Base
+namespace Shoppinho.Sdk.Core.ObjValores.ObjValores
 {
-    public abstract class Documento : ObjValorBase
+    public abstract class Documento : Validador
     {
         private readonly int _tamanhoMaximo;
         private readonly string _formatoDocumento;

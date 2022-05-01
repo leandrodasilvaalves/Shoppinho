@@ -1,10 +1,10 @@
 using System.Text.RegularExpressions;
+using Shoppinho.Sdk.Core.Bases;
 using Shoppinho.Sdk.Core.Notificacoes;
-using Shoppinho.Sdk.Core.ObjValores.Base;
 
 namespace Shoppinho.Sdk.Core.ObjValores
 {
-    public class Email : ObjValorBase
+    public class Email : Validador
     {
         public Email(string endereco, bool principal = false, Guid id = default)
         {

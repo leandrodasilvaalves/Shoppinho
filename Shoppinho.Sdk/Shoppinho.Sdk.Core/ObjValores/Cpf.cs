@@ -1,5 +1,5 @@
 using Shoppinho.Sdk.Core.Notificacoes;
-using Shoppinho.Sdk.Core.ObjValores.ObjValores.Base;
+using Shoppinho.Sdk.Core.ObjValores.ObjValores;
 
 namespace Shoppinho.Sdk.Core.ObjValores
 {

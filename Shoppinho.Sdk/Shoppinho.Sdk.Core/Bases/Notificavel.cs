@@ -1,15 +1,20 @@
 using System.Collections.ObjectModel;
 using Shoppinho.Sdk.Core.Notificacoes;
 
-namespace Shoppinho.Sdk.Core.ObjValores.Base
+namespace Shoppinho.Sdk.Core.Bases
 {
-    public abstract class ObjValorBase
+    public abstract class Notificavel
     {
         private readonly IList<Notificacao> _notificacoes;
-        public ObjValorBase()
+
+        public Notificavel()
         {
             _notificacoes = new List<Notificacao>();
         }
+
+        public int Erros => _notificacoes.OfType<Erro>().Count();
+        public int Alertas => _notificacoes.OfType<Erro>().Count();
+        public int Informacoes => _notificacoes.OfType<Erro>().Count();
 
         public IReadOnlyCollection<Notificacao> Notificaoes
             => new ReadOnlyCollection<Notificacao>(_notificacoes);
@@ -24,7 +29,5 @@ namespace Shoppinho.Sdk.Core.ObjValores.Base
 
         public void RemoverNotificacao(Notificacao notificacao)
             => _notificacoes.Remove(notificacao);
-
-        public abstract bool Validar();
     }
 }

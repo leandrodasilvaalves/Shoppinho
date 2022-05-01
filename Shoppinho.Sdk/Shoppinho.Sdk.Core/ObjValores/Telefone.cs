@@ -1,11 +1,11 @@
 using System.Text.RegularExpressions;
+using Shoppinho.Sdk.Core.Bases;
 using Shoppinho.Sdk.Core.Notificacoes;
-using Shoppinho.Sdk.Core.ObjValores.Base;
 using Shoppinho.Sdk.Utils.Extensions;
 
 namespace Shoppinho.Sdk.Core.ObjValores
 {
-    public class Telefone : ObjValorBase
+    public class Telefone : Validador
     {
         protected Telefone() { }
         public Telefone(string ddd, string numero, string codigoPais = "55", bool whatsapp = false, bool principal = false)
