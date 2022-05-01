@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Shoppinho.Sdk.Core.Notificacoes;
 using Shoppinho.Sdk.Core.ObjValores.Base;
 using Shoppinho.Sdk.Utils.Extensions;
 
@@ -37,7 +38,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
             {
                 return true;
             }
-            IncluirNotificacao("O DDD informado é inválido");
+            IncluirNotificacao(new Erro("TELEFONE_DDD_INVALIDO","O DDD informado é inválido"));
             return false;
         }
 
@@ -48,7 +49,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
             {
                 return true;
             }
-            IncluirNotificacao("O número deve conter 9 dígitos");
+            IncluirNotificacao(new Erro("TELEFON_NUMERO_INVALIDO","O número deve conter 9 dígitos"));
             return false;
         }
 
@@ -59,7 +60,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
             {
                 return true;
             }
-            IncluirNotificacao("O código do país informado é inválido");
+            IncluirNotificacao(new Erro("TELEFONE_CODIGO_PAIS_INVALIDO","O código do país informado é inválido"));
             return false;
         }
 

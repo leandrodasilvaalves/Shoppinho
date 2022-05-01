@@ -1,3 +1,4 @@
+using Shoppinho.Sdk.Core.Notificacoes;
 using Shoppinho.Sdk.Core.ObjValores.Base;
 
 namespace Shoppinho.Sdk.Core.ObjValores
@@ -32,17 +33,18 @@ namespace Shoppinho.Sdk.Core.ObjValores
             {
                 return true;
             }
-            IncluirNotificacao("O estado informado é inválido");
+            IncluirNotificacao(new Erro("CIDADE_ESTADO_INVALIDO", "O estado informado é inválido"));
             return false;
         }
 
         private bool ValidarNomeCidade()
         {
-            if(Nome?.Length >= MinLength && Nome?.Length <= MaxLength)
+            if (Nome?.Length >= MinLength && Nome?.Length <= MaxLength)
             {
                 return true;
             }
-            IncluirNotificacao($"O nome da cidade deve ter entre {MinLength} e {MaxLength} caracteres");
+            IncluirNotificacao(new Erro("CIDADE_NOME_INVALIDO", 
+                $"O nome da cidade deve ter entre {MinLength} e {MaxLength} caracteres"));
             return false;
         }
     }

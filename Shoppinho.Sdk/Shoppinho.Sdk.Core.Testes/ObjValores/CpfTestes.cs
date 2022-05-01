@@ -1,3 +1,4 @@
+using System.Linq;
 using Bogus;
 using Bogus.Extensions.Brazil;
 using Shoppinho.Sdk.Core.ObjValores;
@@ -14,6 +15,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         {
             Cpf cpf = new(_faker.Person.Cpf());
             Assert.True(cpf.Validar());
+            Assert.True(cpf.Notificaoes.Count == 0);
         }
 
         [Theory]
@@ -26,6 +28,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         {
             Cpf cpf = new(cpfInvalido);
             Assert.False(cpf.Validar());
+            Assert.True(cpf.Notificaoes.Count > 0);
         }
 
         [Theory]
@@ -44,6 +47,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         {
             Cpf cpf = new(cpfInvalido);
             Assert.False(cpf.Validar());
+            Assert.True(cpf.Notificaoes.Count > 0);
         }
 
         [Theory]
@@ -53,6 +57,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         {
             Cpf cpf = new(cpfInvalido);
             Assert.False(cpf.Validar());
+            Assert.True(cpf.Notificaoes.Count > 0);
         }
 
         [Fact]
@@ -64,6 +69,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
 
             Cpf cpf = new(numero);
             Assert.False(cpf.Validar());
+            Assert.True(cpf.Notificaoes.Count > 0);
         }
 
         [Theory]
@@ -76,6 +82,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         {
             var cpf = new Cpf(numeroSemFormatacao);            
             Assert.Equal(valorEsperado, cpf.NumeroFormatado);
+            Assert.True(cpf.Notificaoes.Count == 0);
         }
     }
 }

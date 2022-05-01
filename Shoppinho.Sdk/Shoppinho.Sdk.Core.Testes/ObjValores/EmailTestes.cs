@@ -24,6 +24,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         {
             var email = new Email(enderecoEmail);
             Assert.True(email.Validar());
+            Assert.True(email.Notificaoes.Count == 0);
         }
 
         [Theory]
@@ -39,6 +40,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         {
             var email = new Email(enderecoEmail);
             Assert.False(email.Validar());
+            Assert.True(email.Notificaoes.Count > 0);
         }
     }
 }

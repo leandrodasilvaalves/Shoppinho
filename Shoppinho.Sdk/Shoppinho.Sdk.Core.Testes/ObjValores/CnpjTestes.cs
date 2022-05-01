@@ -14,6 +14,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         {
             var cnpj = new Cnpj(_faker.Company.Cnpj());
             Assert.True(cnpj.Validar());
+            Assert.True(cnpj.Notificaoes.Count == 0);
         }        
 
         [Fact]
@@ -26,6 +27,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
 
             var cnpj = new Cnpj(numero);
             Assert.False(cnpj.Validar());
+            Assert.True(cnpj.Notificaoes.Count > 0);
         }
 
 
@@ -39,6 +41,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         {
             var cnpj = new Cnpj(numero);
             Assert.False(cnpj.Validar());
+            Assert.True(cnpj.Notificaoes.Count > 0);
         }
 
         [Theory]
@@ -56,6 +59,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         {
             var cnpj = new Cnpj(numero);
             Assert.False(cnpj.Validar());
+            Assert.True(cnpj.Notificaoes.Count > 0);
         }
 
         [Theory]
@@ -69,6 +73,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         {
             var cnpj = new Cnpj(numeroSemFormatacao);            
             Assert.Equal(valorEsperado, cnpj.NumeroFormatado);
+            Assert.True(cnpj.Notificaoes.Count == 0);
         }
     }
 }

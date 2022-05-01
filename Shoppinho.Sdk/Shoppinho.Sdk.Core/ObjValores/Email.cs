@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Shoppinho.Sdk.Core.Notificacoes;
 using Shoppinho.Sdk.Core.ObjValores.Base;
 
 namespace Shoppinho.Sdk.Core.ObjValores
@@ -19,7 +20,12 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public override bool Validar()
         {
             var regExpEmail = new Regex(@"^[a-zA-Z]+(([\'\,\.\- ][a-zA-Z ])?[a-zA-Z]*)*\s+<(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})>$|^(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})$");
-            return regExpEmail.Match(Endereco).Success;
+            if(regExpEmail.Match(Endereco).Success)
+            {
+                return true;
+            }
+            IncluirNotificacao(new Erro("EMAIL_INVALIDO", "O e-mail informado é inválido"));
+            return false;
         }
 
         public static implicit operator Email(string enderecoEmail)

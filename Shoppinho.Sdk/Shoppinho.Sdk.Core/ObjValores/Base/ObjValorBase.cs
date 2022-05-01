@@ -1,28 +1,28 @@
 using System.Collections.ObjectModel;
+using Shoppinho.Sdk.Core.Notificacoes;
 
 namespace Shoppinho.Sdk.Core.ObjValores.Base
 {
     public abstract class ObjValorBase
     {
-        private readonly IList<string> _notificacoes;
+        private readonly IList<Notificacao> _notificacoes;
         public ObjValorBase()
         {
-            _notificacoes = new List<string>();
+            _notificacoes = new List<Notificacao>();
         }
 
-        public IReadOnlyCollection<string> Notificaoes 
-            => new ReadOnlyCollection<string>(_notificacoes);
+        public IReadOnlyCollection<Notificacao> Notificaoes
+            => new ReadOnlyCollection<Notificacao>(_notificacoes);
 
-        public void IncluirNotificacao(string notificacao)
+        public void IncluirNotificacao(Notificacao notificacao)
         {
-            if (!string.IsNullOrEmpty(notificacao))
-                _notificacoes.Add(notificacao);
+            _notificacoes.Add(notificacao);
         }
 
         public void LimparNotificacoes()
              => _notificacoes.Clear();
 
-        public void RemoverNotificacao(string notificacao) 
+        public void RemoverNotificacao(Notificacao notificacao)
             => _notificacoes.Remove(notificacao);
 
         public abstract bool Validar();

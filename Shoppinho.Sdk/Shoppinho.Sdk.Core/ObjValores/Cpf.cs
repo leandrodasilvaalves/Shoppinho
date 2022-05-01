@@ -1,3 +1,4 @@
+using Shoppinho.Sdk.Core.Notificacoes;
 using Shoppinho.Sdk.Core.ObjValores.ObjValores.Base;
 
 namespace Shoppinho.Sdk.Core.ObjValores
@@ -7,9 +8,9 @@ namespace Shoppinho.Sdk.Core.ObjValores
         private const string SquencialInvalido = "12345678909";
         public const int TamanhoMaximo = 11;
 
-        protected Cpf(): base(default, default, default){} //EF
+        protected Cpf() : base(default, default, default) { } //EF
 
-        public Cpf(string numero) 
+        public Cpf(string numero)
             : base(numero, TamanhoMaximo, @"000\.000\.000\-00") { }
 
         //https://www.macoratti.net/alg_cpf.htm
@@ -17,21 +18,31 @@ namespace Shoppinho.Sdk.Core.ObjValores
         {
             if (ValidarTamanho() &&
                 !TodosDigitosIguais() &&
-                (Numero != SquencialInvalido) &&
+                NaoEhSequencialInvalido() &&
                 VerificarPrimeiroDigito() &&
                 VerificarSegundoDigito())
                 return true;
 
             return false;
         }
-        
+
+        private bool NaoEhSequencialInvalido()
+        {
+            if (Numero != SquencialInvalido)
+            {
+                return true;
+            }
+            IncluirNotificacao(new Erro("CPF_INVALIDO", "O número do cpf informado é inválido"));
+            return false;
+        }
+
         protected override bool VerificarPrimeiroDigito()
         {
             var multiplicadores = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             return VerificarDigito(9, multiplicadores);
         }
-        
-        protected override bool VerificarSegundoDigito() 
+
+        protected override bool VerificarSegundoDigito()
         {
             var multiplicadores = new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             return VerificarDigito(10, multiplicadores);
@@ -48,7 +59,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public static bool TryParse(string numero, out Cpf cpf)
         {
             cpf = new Cpf(numero);
-            return cpf.Validar();            
+            return cpf.Validar();
         }
     }
 }

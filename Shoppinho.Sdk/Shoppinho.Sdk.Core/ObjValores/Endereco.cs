@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Shoppinho.Sdk.Core.Notificacoes;
 using Shoppinho.Sdk.Core.ObjValores.Base;
 using Shoppinho.Sdk.Utils.Extensions;
 
@@ -48,7 +49,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
             {
                 return true;
             }
-            IncluirNotificacao($"O logradouro deve ter entre {MinLength} e {MaxLength} caracteres");
+            IncluirNotificacao(new Erro("ENDERECO_LOGRADOURO_INVALIDO", $"O logradouro deve ter entre {MinLength} e {MaxLength} caracteres"));
             return false;
         }
 
@@ -59,7 +60,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
             {
                 return true;
             }
-            IncluirNotificacao("O cep informado é inválido");
+            IncluirNotificacao(new Erro("ENDERECO_CEP_INVALIDO", "O cep informado é inválido"));
             return false;
         }
     }

@@ -1,3 +1,4 @@
+using Shoppinho.Sdk.Core.Notificacoes;
 using Shoppinho.Sdk.Core.ObjValores.Base;
 using Shoppinho.Sdk.Utils.Extensions;
 
@@ -7,10 +8,11 @@ namespace Shoppinho.Sdk.Core.ObjValores.ObjValores.Base
     {
         private readonly int _tamanhoMaximo;
         private readonly string _formatoDocumento;
+        private readonly string _nomeDocumento;
         protected Documento(string numero, int tamanhoMaximo, string formatoDocumento)
         {
-            var documento = GetType().Name.ToUpper();
-            Numero = numero.SomenteNumeros() ?? throw new ArgumentNullException($"Número do {documento} não foi informado");
+            _nomeDocumento = GetType().Name.ToUpper();
+            Numero = numero.SomenteNumeros() ?? throw new ArgumentNullException($"Número do {_nomeDocumento} não foi informado");
             _formatoDocumento = formatoDocumento ?? throw new ArgumentNullException(nameof(formatoDocumento));
             _tamanhoMaximo = tamanhoMaximo;
         }
@@ -20,10 +22,10 @@ namespace Shoppinho.Sdk.Core.ObjValores.ObjValores.Base
         public string NumeroFormatado
         {
             get
-            {   
+            {
                 return Convert.ToInt64(Numero).ToString(_formatoDocumento);
             }
-        }        
+        }
 
         protected abstract bool VerificarPrimeiroDigito();
 
@@ -31,12 +33,16 @@ namespace Shoppinho.Sdk.Core.ObjValores.ObjValores.Base
 
         protected bool TodosDigitosIguais()
         {
-            var igual = true;
-            for (var i = 1; i < _tamanhoMaximo && igual; i++)
+            var todosIguais = true;
+            for (var i = 1; i < _tamanhoMaximo && todosIguais; i++)
                 if (Numero[i] != Numero[0])
-                    igual = false;
+                    todosIguais = false;
 
-            return igual;
+            if (todosIguais)
+            {
+                IncluirNotificacao(new Erro($"{_nomeDocumento}_DIGITOS_IGUAIS", "Todos os dígitos informados são iguais"));
+            }
+            return todosIguais;
         }
 
         protected bool VerificarDigito(int indice, int[] multiplicadores)
@@ -55,10 +61,20 @@ namespace Shoppinho.Sdk.Core.ObjValores.ObjValores.Base
             else if (ObterDigitoPorIndice(indice) == (DigitoVerificadorModulo11 - resto))
                 return true;
 
+            IncluirNotificacao(new Erro($"{_nomeDocumento}_DIGITO_VERIFICADOR_INVALIDO", 
+                $"O documento {_nomeDocumento} deve ter {_tamanhoMaximo} caracteres."));
             return false;
         }
 
-        protected bool ValidarTamanho() => Numero?.Length == _tamanhoMaximo;
+        protected bool ValidarTamanho()
+        {
+            var tamanhoValido = Numero?.Length == _tamanhoMaximo;
+            if (!tamanhoValido)
+            {
+                IncluirNotificacao(new Erro($"{_nomeDocumento}_TAMANHO_INVALIDO", "A quantidade de caracteres é inválida."));
+            }
+            return tamanhoValido;
+        }
 
         private int ObterDigitoPorIndice(int indice) => int.Parse(Numero[indice].ToString());
     }
