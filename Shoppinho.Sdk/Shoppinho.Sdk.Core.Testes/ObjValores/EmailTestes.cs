@@ -23,8 +23,10 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraSerVerdadeiroQuandoInformarUmEnderecoDeEmailValido(string enderecoEmail)
         {
             var email = new Email(enderecoEmail);
-            Assert.True(email.Validar());
-            Assert.True(email.Notificaoes.Count == 0);
+            email.Validar();
+
+            Assert.True(email.EhValido);
+            Assert.True(email.Erros.Count == 0);
         }
 
         [Theory]
@@ -39,8 +41,10 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraSerFalsoQuandoInformarUmEnderecoDeEmailInvalido(string enderecoEmail)
         {
             var email = new Email(enderecoEmail);
-            Assert.False(email.Validar());
-            Assert.True(email.Notificaoes.Count > 0);
+            email.Validar();
+            
+            Assert.False(email.EhValido);
+            Assert.True(email.Erros.Count > 0);
         }
     }
 }

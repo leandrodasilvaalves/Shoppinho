@@ -36,11 +36,11 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public string Cep { get; private set; }
         public bool Principal { get; private set; }
 
-        public override bool Validar()
+        public override void Validar()
         {
-            return Cidade.Validar() &&
-                   ValidarLogradouro() &&
-                   ValidarCep();
+            Cidade.Validar();
+            ValidarLogradouro();
+            ValidarCep();
         }
 
         private bool ValidarLogradouro()

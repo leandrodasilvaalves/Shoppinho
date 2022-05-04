@@ -1,3 +1,4 @@
+using Shoppinho.Sdk.Core.Notificacoes;
 using Shoppinho.Sdk.Core.ObjValores.ObjValores;
 namespace Shoppinho.Sdk.Core.ObjValores
 {
@@ -6,31 +7,32 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public const int TamanhoMaximo = 14;
 
         protected Cnpj() : base(default, default, default) { } //EF
-        public Cnpj(string numero) 
+        public Cnpj(string numero)
             : base(numero, TamanhoMaximo, @"00\.000\.000\/0000\-00") { }
 
         //https://www.macoratti.net/alg_cnpj.htm
-        public override bool Validar()
+        public override void Validar()
         {
-            if (ValidarTamanho() &&
-                !TodosDigitosIguais() &&
-                VerificarPrimeiroDigito() &&
-                VerificarSegundoDigito())
-                return true;
-
-            return false;
+            ValidarTamanho();
+            TodosDigitosIguais();
+            VerificarPrimeiroDigito();
+            VerificarSegundoDigito();
         }
 
-        protected override bool VerificarPrimeiroDigito()
+        protected override void VerificarPrimeiroDigito()
         {
             var multiplicadores = new int[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
-            return VerificarDigito(12, multiplicadores);
+            Regra(
+                VerificarDigito(12, multiplicadores),
+                new Erro("CNPJ_PRIMEIRO_DIGITO_VERIFICADOR_INVALIDO", "O primeiro digito verificador é inválido"));
         }
 
-        protected override bool VerificarSegundoDigito()
+        protected override void VerificarSegundoDigito()
         {
-            var multiplicadores = new int[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
-            return VerificarDigito(13, multiplicadores);
+            var multiplicadores = new int[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };            
+            Regra(
+                VerificarDigito(13, multiplicadores),
+                new Erro("CNPJ_SEGUNDO_DIGITO_VERIFICADOR_INVALIDO", "O segundo digito verificador é inválido"));
         }
 
         public static implicit operator Cnpj(string numero)
@@ -44,7 +46,8 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public static bool TryParse(string numero, out Cnpj cnpj)
         {
             cnpj = new Cnpj(numero);
-            return cnpj.Validar();
+            cnpj.Validar();
+            return cnpj.EhValido;
         }
     }
 }

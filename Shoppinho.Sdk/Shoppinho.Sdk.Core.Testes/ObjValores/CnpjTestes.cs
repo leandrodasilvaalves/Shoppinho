@@ -13,8 +13,10 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraSerSucessoQuandoInformarUmCnpjValido()
         {
             var cnpj = new Cnpj(_faker.Company.Cnpj());
-            Assert.True(cnpj.Validar());
-            Assert.True(cnpj.Notificaoes.Count == 0);
+            cnpj.Validar();
+
+            Assert.True(cnpj.EhValido);
+            Assert.True(cnpj.Erros.Count == 0);
         }        
 
         [Fact]
@@ -26,8 +28,10 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
             numero = $"{numero.Substring(0, 11)}{criarDigitoFake(12)}{criarDigitoFake(13)}";
 
             var cnpj = new Cnpj(numero);
-            Assert.False(cnpj.Validar());
-            Assert.True(cnpj.Notificaoes.Count > 0);
+            cnpj.Validar();
+
+            Assert.False(cnpj.EhValido);
+            Assert.True(cnpj.Erros.Count > 0);
         }
 
 
@@ -40,8 +44,10 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraFalharQuandoTamanhoDiferenteDeQuatorze(string numero)
         {
             var cnpj = new Cnpj(numero);
-            Assert.False(cnpj.Validar());
-            Assert.True(cnpj.Notificaoes.Count > 0);
+            cnpj.Validar();
+
+            Assert.False(cnpj.EhValido);
+            Assert.True(cnpj.Erros.Count > 0);
         }
 
         [Theory]
@@ -58,8 +64,10 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraFalharQuandoInformarTodosDigitosIguais(string numero)
         {
             var cnpj = new Cnpj(numero);
-            Assert.False(cnpj.Validar());
-            Assert.True(cnpj.Notificaoes.Count > 0);
+            cnpj.Validar();
+
+            Assert.False(cnpj.EhValido);
+            Assert.True(cnpj.Erros.Count > 0);
         }
 
         [Theory]
@@ -71,9 +79,11 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         [InlineData("01002003000100", "01.002.003/0001-00")]
         public void DeveraRetornarNumeroFormatado(string numeroSemFormatacao, string valorEsperado)
         {
-            var cnpj = new Cnpj(numeroSemFormatacao);            
+            var cnpj = new Cnpj(numeroSemFormatacao);
+            cnpj.Validar();
+                        
             Assert.Equal(valorEsperado, cnpj.NumeroFormatado);
-            Assert.True(cnpj.Notificaoes.Count == 0);
+            Assert.True(cnpj.Erros.Count == 0);
         }
     }
 }

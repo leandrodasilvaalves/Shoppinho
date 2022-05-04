@@ -9,8 +9,10 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraSerVerdadeiroQuandoInformarCidadeEstadoValidos()
         {
             var cidade = new Cidade("Santa Helena de Goiás", "GO");
-            Assert.True(cidade.Validar());
-            Assert.True(cidade.Notificaoes.Count == 0);
+            cidade.Validar();
+            
+            Assert.True(cidade.EhValido);
+            Assert.True(cidade.Erros.Count == 0);
         }
 
         [Theory]
@@ -19,8 +21,10 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraSerFalsoQuandoInformarCidadeInvalida(string nomeCidade)
         {
             var cidade = new Cidade(nomeCidade, "DF");
-            Assert.False(cidade.Validar());
-            Assert.True(cidade.Notificaoes.Count > 0);
+            cidade.Validar();
+
+            Assert.False(cidade.EhValido);
+            Assert.True(cidade.Erros.Count > 0);
         }
 
         [Theory]
@@ -31,8 +35,10 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraSerFalsoQuandoInformarEstadoInvalido(string estado)
         {
             var cidade = new Cidade("Brasília", estado);
-            Assert.False(cidade.Validar());
-            Assert.True(cidade.Notificaoes.Count > 0);
+            cidade.Validar();
+
+            Assert.False(cidade.EhValido);
+            Assert.True(cidade.Erros.Count > 0);
         }
 
         [Theory]
@@ -43,8 +49,10 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraSerFalsoQuandoInformarCidadeEstadoInvalidos(string nomeCidade, string estado)
         {
             var cidade = new Cidade("Brasília", estado);
-            Assert.False(cidade.Validar());
-            Assert.True(cidade.Notificaoes.Count > 0);
+            cidade.Validar();
+
+            Assert.False(cidade.EhValido);
+            Assert.True(cidade.Erros.Count > 0);
         }
     }
 }

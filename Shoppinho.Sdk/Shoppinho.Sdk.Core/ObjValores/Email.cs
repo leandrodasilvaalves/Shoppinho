@@ -17,15 +17,11 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public string Endereco { get; private set; }
         public bool Principal { get; private set; }
 
-        public override bool Validar()
+        public override void Validar()
         {
             var regExpEmail = new Regex(@"^[a-zA-Z]+(([\'\,\.\- ][a-zA-Z ])?[a-zA-Z]*)*\s+<(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})>$|^(\w[-._\w]*\w@\w[-._\w]*\w\.\w{2,3})$");
-            if(regExpEmail.Match(Endereco).Success)
-            {
-                return true;
-            }
-            IncluirNotificacao(new Erro("EMAIL_INVALIDO", "O e-mail informado é inválido"));
-            return false;
+            Regra(regExpEmail.Match(Endereco).Success, 
+                new Erro("EMAIL_INVALIDO", "O e-mail informado é inválido"));
         }
 
         public static implicit operator Email(string enderecoEmail)
@@ -40,7 +36,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public static bool TryParse(string enderecoEmail, out Email email)
         {
             email = new Email(enderecoEmail);
-            return email.Validar();
+            return email.EhValido;
         }
     }
 }

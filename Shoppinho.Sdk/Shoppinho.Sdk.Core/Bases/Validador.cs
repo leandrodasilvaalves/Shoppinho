@@ -1,20 +1,18 @@
-using System.Linq.Expressions;
 using Shoppinho.Sdk.Core.Notificacoes;
 
 namespace Shoppinho.Sdk.Core.Bases
 {
     public abstract class Validador : Notificavel
     {
-        public bool EhValido => Erros == 0;
+        public bool EhValido => !Erros.Any();        
 
-        public abstract bool Validar();
+        public abstract void Validar();
 
-        public void Regra(Expression<Func<bool>> expressao, Erro notificacao)
+        public void Regra(bool condicao, Erro erro)
         {
-            var valido = expressao.Compile().Invoke();
-            if (valido is false)
+            if (condicao is false)
             {
-                IncluirNotificacao(notificacao);
+                IncluirNotificacao(erro);
             }
         }
     }

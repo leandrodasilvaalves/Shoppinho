@@ -11,8 +11,11 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraSerVerdadeiroQuandoInformarUmTelefoneValido(string ddd, string numero, string codigoPais)
         {
             var telefone = new Telefone(ddd, numero, codigoPais);
-            Assert.True(telefone.Validar());
-            Assert.True(telefone.Notificaoes.Count == 0);
+
+            telefone.Validar();
+
+            Assert.True(telefone.EhValido);
+            Assert.True(telefone.Erros.Count == 0);
         }
 
         [Theory]
@@ -22,8 +25,11 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraSerFalsoQuandoInformarDDDInvalido(string ddd)
         {
             var telefone = new Telefone(ddd, "991077157");
-            Assert.False(telefone.Validar());
-            Assert.True(telefone.Notificaoes.Count > 0);
+
+            telefone.Validar();
+            
+            Assert.False(telefone.EhValido);
+            Assert.True(telefone.Erros.Count > 0);
         }
 
         [Theory]
@@ -33,8 +39,11 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraSerFalsoQuandoInformarNumeroInvalido(string numero)
         {
             var telefone = new Telefone("61", numero);
-            Assert.False(telefone.Validar());
-            Assert.True(telefone.Notificaoes.Count > 0);
+
+            telefone.Validar();
+            
+            Assert.False(telefone.EhValido);
+            Assert.True(telefone.Erros.Count > 0);
         }
 
         [Theory]
@@ -44,8 +53,11 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraSerFalsoQuandoInformarCodigoPaisInvalido(string codigoPais)
         {
             var telefone = new Telefone("61", "991077157", codigoPais);
-            Assert.False(telefone.Validar());
-            Assert.True(telefone.Notificaoes.Count > 0);            
+
+            telefone.Validar();
+            
+            Assert.False(telefone.EhValido);
+            Assert.True(telefone.Erros.Count > 0);            
         }
 
         [Theory]

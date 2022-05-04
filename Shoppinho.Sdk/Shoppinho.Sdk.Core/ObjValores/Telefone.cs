@@ -23,12 +23,11 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public bool Whatsapp { get; private set; }
         public bool Principal { get; private set; }
 
-        public override bool Validar()
+        public override void Validar()
         {
-            return
-                ValidarDDD() &&
-                ValidarNumero() &&
-                ValidarCodigoPais();
+            ValidarDDD();
+            ValidarNumero();
+            ValidarCodigoPais();
         }
 
         private bool ValidarDDD()
@@ -38,7 +37,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
             {
                 return true;
             }
-            IncluirNotificacao(new Erro("TELEFONE_DDD_INVALIDO","O DDD informado é inválido"));
+            IncluirNotificacao(new Erro("TELEFONE_DDD_INVALIDO", "O DDD informado é inválido"));
             return false;
         }
 
@@ -49,7 +48,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
             {
                 return true;
             }
-            IncluirNotificacao(new Erro("TELEFON_NUMERO_INVALIDO","O número deve conter 9 dígitos"));
+            IncluirNotificacao(new Erro("TELEFON_NUMERO_INVALIDO", "O número deve conter 9 dígitos"));
             return false;
         }
 
@@ -60,7 +59,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
             {
                 return true;
             }
-            IncluirNotificacao(new Erro("TELEFONE_CODIGO_PAIS_INVALIDO","O código do país informado é inválido"));
+            IncluirNotificacao(new Erro("TELEFONE_CODIGO_PAIS_INVALIDO", "O código do país informado é inválido"));
             return false;
         }
 
@@ -85,7 +84,9 @@ namespace Shoppinho.Sdk.Core.ObjValores
                     numero: numeroTelefone.Substring(2)
                 );
             }
-            return telefone.Validar();
+
+            telefone.Validar();
+            return telefone.EhValido;
         }
 
         public static Telefone Parse(string numeroTelefone)
@@ -99,7 +100,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
 
         public static implicit operator Telefone(string numero)
         {
-           return Telefone.Parse(numero);
+            return Telefone.Parse(numero);
         }
     }
 }

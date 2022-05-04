@@ -18,9 +18,13 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public string Nome { get; private set; }
         public string Estado { get; private set; }
 
-        public override bool Validar() => ValidarNomeCidade() && ValidarEstado();
+        public override void Validar()
+        {
+            ValidarEstado();
+            ValidarNomeCidade();
+        }
 
-        private bool ValidarEstado()
+        private void ValidarEstado()
         {
             var estados = new string[] {
                 "AC", "AL", "AP", "AM", "BA", "CE",
@@ -29,23 +33,19 @@ namespace Shoppinho.Sdk.Core.ObjValores
                 "RJ", "RN", "RS", "RO", "RR", "SC",
                 "SP", "SE", "TO",
             };
-            if (estados.Contains(Estado.ToUpper()))
-            {
-                return true;
-            }
-            IncluirNotificacao(new Erro("CIDADE_ESTADO_INVALIDO", "O estado informado é inválido"));
-            return false;
+
+            Regra(
+                estados.Contains(Estado.ToUpper()),
+                new Erro("CIDADE_ESTADO_INVALIDO", "O estado informado é inválido")
+            );
         }
 
-        private bool ValidarNomeCidade()
+        private void ValidarNomeCidade()
         {
-            if (Nome?.Length >= MinLength && Nome?.Length <= MaxLength)
-            {
-                return true;
-            }
-            IncluirNotificacao(new Erro("CIDADE_NOME_INVALIDO", 
-                $"O nome da cidade deve ter entre {MinLength} e {MaxLength} caracteres"));
-            return false;
+            Regra(
+                Nome?.Length >= MinLength && Nome?.Length <= MaxLength,
+                new Erro("CIDADE_NOME_INVALIDO",
+                    $"O nome da cidade deve ter entre {MinLength} e {MaxLength} caracteres"));
         }
     }
 }
