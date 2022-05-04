@@ -18,8 +18,11 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
                 new Cidade("Santa Helena de Goiás", "GO"),
                 "75.920-000"
             );
-            Assert.True(endereco.Validar());
-            Assert.True(endereco.Notificaoes.Count == 0);
+
+            endereco.Validar();
+
+            Assert.True(endereco.EhValido);
+            Assert.True(endereco.Erros.Count == 0);
         }
 
         [Theory]
@@ -34,8 +37,11 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
                 new Cidade("Santa Helena de Goiás", "GO"),
                 "75.920-000"
             );
-            Assert.False(endereco.Validar());
-            Assert.True(endereco.Notificaoes.Count > 0);
+
+            endereco.Validar();
+
+            Assert.False(endereco.EhValido);
+            Assert.True(endereco.Erros.Count > 0);
         }
 
         [Fact]
@@ -49,8 +55,11 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
                 new Cidade("Santa Helena de Goiás", "GO"),
                 "75.920-000"
             );
-            Assert.False(endereco.Validar());
-            Assert.True(endereco.Notificaoes.Count > 0);
+
+            endereco.Validar();
+
+            Assert.False(endereco.EhValido);
+            Assert.True(endereco.Erros.Count > 0);
         }
 
         [Theory]
@@ -68,8 +77,11 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
                 new Cidade("Santa Helena de Goiás", "GO"),
                 cep
             );
-            Assert.False(endereco.Validar());
-            Assert.True(endereco.Notificaoes.Count > 0);
+
+            endereco.Validar();
+            
+            Assert.False(endereco.EhValido);
+            Assert.True(endereco.Erros.Count > 0);
         }
     }
 }

@@ -14,38 +14,34 @@ namespace Shoppinho.Sdk.Core.ObjValores
             : base(numero, TamanhoMaximo, @"000\.000\.000\-00") { }
 
         //https://www.macoratti.net/alg_cpf.htm
-        public override bool Validar()
+        public override void Validar()
         {
-            if (ValidarTamanho() &&
-                !TodosDigitosIguais() &&
-                NaoEhSequencialInvalido() &&
-                VerificarPrimeiroDigito() &&
-                VerificarSegundoDigito())
-                return true;
-
-            return false;
+            ValidarTamanho();
+            TodosDigitosIguais();
+            NaoEhSequencialInvalido();
+            VerificarPrimeiroDigito();
+            VerificarSegundoDigito();
         }
 
-        private bool NaoEhSequencialInvalido()
+        private void NaoEhSequencialInvalido()
         {
-            if (Numero != SquencialInvalido)
-            {
-                return true;
-            }
-            IncluirNotificacao(new Erro("CPF_INVALIDO", "O número do cpf informado é inválido"));
-            return false;
+            Regra(Numero != SquencialInvalido, 
+                new Erro("CPF_INVALIDO", "O número do cpf informado é inválido"));
         }
 
-        protected override bool VerificarPrimeiroDigito()
+        protected override void VerificarPrimeiroDigito()
         {
             var multiplicadores = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-            return VerificarDigito(9, multiplicadores);
+
+            Regra(VerificarDigito(9, multiplicadores), 
+                new Erro("CPF_PRIMEIRO_DIGITO_VERIFICADOR_INVALIDO", "O primeiro dígito verificador é inválido"));
         }
 
-        protected override bool VerificarSegundoDigito()
+        protected override void VerificarSegundoDigito()
         {
             var multiplicadores = new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-            return VerificarDigito(10, multiplicadores);
+            Regra(VerificarDigito(10, multiplicadores), 
+                new Erro("CPF_SEGUNDO_DIGITO_VERIFICADOR_INVALIDO", "O segundo dígito verificador é inválido"));
         }
 
         public static implicit operator Cpf(string numero)
@@ -59,7 +55,8 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public static bool TryParse(string numero, out Cpf cpf)
         {
             cpf = new Cpf(numero);
-            return cpf.Validar();
+            cpf.Validar();
+            return cpf.EhValido;
         }
     }
 }

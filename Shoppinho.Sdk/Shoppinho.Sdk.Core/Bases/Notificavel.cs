@@ -12,12 +12,12 @@ namespace Shoppinho.Sdk.Core.Bases
             _notificacoes = new List<Notificacao>();
         }
 
-        public int Erros => _notificacoes.OfType<Erro>().Count();
-        public int Alertas => _notificacoes.OfType<Erro>().Count();
-        public int Informacoes => _notificacoes.OfType<Erro>().Count();
-
-        public IReadOnlyCollection<Notificacao> Notificaoes
-            => new ReadOnlyCollection<Notificacao>(_notificacoes);
+        public IReadOnlyCollection<Erro> Erros =>
+            new ReadOnlyCollection<Erro>(_notificacoes.OfType<Erro>().ToList());
+        public IReadOnlyCollection<Alerta> Alertas =>
+            new ReadOnlyCollection<Alerta>(_notificacoes.OfType<Alerta>().ToList());
+        public IReadOnlyCollection<Informacao> Informcoes =>
+            new ReadOnlyCollection<Informacao>(_notificacoes.OfType<Informacao>().ToList());
 
         public void IncluirNotificacao(Notificacao notificacao)
         {

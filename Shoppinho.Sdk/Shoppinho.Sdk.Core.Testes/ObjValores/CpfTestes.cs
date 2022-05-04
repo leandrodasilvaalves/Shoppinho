@@ -14,8 +14,11 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeverSerSucessoQuandoInformarCpfValido()
         {
             Cpf cpf = new(_faker.Person.Cpf());
-            Assert.True(cpf.Validar());
-            Assert.True(cpf.Notificaoes.Count == 0);
+
+            cpf.Validar();
+
+            Assert.True(cpf.EhValido);
+            Assert.True(cpf.Erros.Count == 0);
         }
 
         [Theory]
@@ -27,8 +30,11 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraFalharQuandoTamanhoDiferenteDeOnze(string cpfInvalido)
         {
             Cpf cpf = new(cpfInvalido);
-            Assert.False(cpf.Validar());
-            Assert.True(cpf.Notificaoes.Count > 0);
+
+            cpf.Validar();
+            
+            Assert.False(cpf.EhValido);
+            Assert.True(cpf.Erros.Count > 0);
         }
 
         [Theory]
@@ -46,8 +52,11 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraFalharQuandoTodosNumerosForemIguais(string cpfInvalido)
         {
             Cpf cpf = new(cpfInvalido);
-            Assert.False(cpf.Validar());
-            Assert.True(cpf.Notificaoes.Count > 0);
+
+            cpf.Validar();
+            
+            Assert.False(cpf.EhValido);
+            Assert.True(cpf.Erros.Count > 0);
         }
 
         [Theory]
@@ -56,8 +65,11 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraFalharQuandoInformarSequencialInvalido(string cpfInvalido)
         {
             Cpf cpf = new(cpfInvalido);
-            Assert.False(cpf.Validar());
-            Assert.True(cpf.Notificaoes.Count > 0);
+
+            cpf.Validar();
+            
+            Assert.False(cpf.EhValido);
+            Assert.True(cpf.Erros.Count > 0);
         }
 
         [Fact]
@@ -66,10 +78,12 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
             var numero = _faker.Person.Cpf(false);
             int criarDigitoFake(int index) => int.Parse(numero[index].ToString()) + 1;
             numero = $"{numero.Substring(0, 8)}{criarDigitoFake(9)}{criarDigitoFake(10)}";
-
             Cpf cpf = new(numero);
-            Assert.False(cpf.Validar());
-            Assert.True(cpf.Notificaoes.Count > 0);
+
+            cpf.Validar();
+            
+            Assert.False(cpf.EhValido);
+            Assert.True(cpf.Erros.Count > 0);
         }
 
         [Theory]
@@ -80,9 +94,12 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         [InlineData("00100200304", "001.002.003-04")]
         public void DeveraRetornarNumeroFormatado(string numeroSemFormatacao, string valorEsperado)
         {
-            var cpf = new Cpf(numeroSemFormatacao);            
+            var cpf = new Cpf(numeroSemFormatacao);  
+
+            cpf.Validar();
+                      
             Assert.Equal(valorEsperado, cpf.NumeroFormatado);
-            Assert.True(cpf.Notificaoes.Count == 0);
+            Assert.True(cpf.Erros.Count == 0);
         }
     }
 }

@@ -27,22 +27,19 @@ namespace Shoppinho.Sdk.Core.ObjValores.ObjValores
             }
         }
 
-        protected abstract bool VerificarPrimeiroDigito();
+        protected abstract void VerificarPrimeiroDigito();
 
-        protected abstract bool VerificarSegundoDigito();
+        protected abstract void VerificarSegundoDigito();
 
-        protected bool TodosDigitosIguais()
+        protected void TodosDigitosIguais()
         {
             var todosIguais = true;
             for (var i = 1; i < _tamanhoMaximo && todosIguais; i++)
                 if (Numero[i] != Numero[0])
                     todosIguais = false;
 
-            if (todosIguais)
-            {
-                IncluirNotificacao(new Erro($"{_nomeDocumento}_DIGITOS_IGUAIS", "Todos os dígitos informados são iguais"));
-            }
-            return todosIguais;
+            Regra(todosIguais,
+                new Erro($"{_nomeDocumento}_DIGITOS_IGUAIS", "Todos os dígitos informados são iguais"));
         }
 
         protected bool VerificarDigito(int indice, int[] multiplicadores)
@@ -61,19 +58,14 @@ namespace Shoppinho.Sdk.Core.ObjValores.ObjValores
             else if (ObterDigitoPorIndice(indice) == (DigitoVerificadorModulo11 - resto))
                 return true;
 
-            IncluirNotificacao(new Erro($"{_nomeDocumento}_DIGITO_VERIFICADOR_INVALIDO", 
-                $"O documento {_nomeDocumento} deve ter {_tamanhoMaximo} caracteres."));
             return false;
         }
 
-        protected bool ValidarTamanho()
+        protected void ValidarTamanho()
         {
             var tamanhoValido = Numero?.Length == _tamanhoMaximo;
-            if (!tamanhoValido)
-            {
-                IncluirNotificacao(new Erro($"{_nomeDocumento}_TAMANHO_INVALIDO", "A quantidade de caracteres é inválida."));
-            }
-            return tamanhoValido;
+            Regra(!tamanhoValido,
+                new Erro($"{_nomeDocumento}_TAMANHO_INVALIDO", "A quantidade de caracteres é inválida."));
         }
 
         private int ObterDigitoPorIndice(int indice) => int.Parse(Numero[indice].ToString());
