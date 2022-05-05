@@ -22,18 +22,14 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         [Fact]
         public void DeveraFalharquandoInformarCnpjInvalido()
         {
-            var numero = _faker.Company.Cnpj(false);            
-            int criarDigitoFake(int index) => int.Parse(numero[index].ToString()) + 1;
+            var numeroInvalido = "23038496000189";
+            var cnpj = new Cnpj(numeroInvalido);
 
-            numero = $"{numero.Substring(0, 11)}{criarDigitoFake(12)}{criarDigitoFake(13)}";
-
-            var cnpj = new Cnpj(numero);
             cnpj.Validar();
 
             Assert.False(cnpj.EhValido);
             Assert.True(cnpj.Erros.Count > 0);
         }
-
 
         [Theory]
         [InlineData("1675875300010")]
@@ -80,10 +76,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         public void DeveraRetornarNumeroFormatado(string numeroSemFormatacao, string valorEsperado)
         {
             var cnpj = new Cnpj(numeroSemFormatacao);
-            cnpj.Validar();
-                        
-            Assert.Equal(valorEsperado, cnpj.NumeroFormatado);
-            Assert.True(cnpj.Erros.Count == 0);
+            Assert.Equal(valorEsperado, cnpj.NumeroFormatado);            
         }
     }
 }

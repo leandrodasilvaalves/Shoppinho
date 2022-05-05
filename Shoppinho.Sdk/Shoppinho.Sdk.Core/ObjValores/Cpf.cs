@@ -17,15 +17,19 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public override void Validar()
         {
             ValidarTamanho();
-            TodosDigitosIguais();
-            NaoEhSequencialInvalido();
-            VerificarPrimeiroDigito();
-            VerificarSegundoDigito();
+            var validouTamanho = EhValido;
+            if (validouTamanho)
+            {
+                TodosDigitosIguais();
+                NaoEhSequencialInvalido();
+                VerificarPrimeiroDigito();
+                VerificarSegundoDigito();
+            }
         }
 
         private void NaoEhSequencialInvalido()
         {
-            Regra(Numero != SquencialInvalido, 
+            Regra(Numero != SquencialInvalido,
                 new Erro("CPF_INVALIDO", "O número do cpf informado é inválido"));
         }
 
@@ -33,14 +37,14 @@ namespace Shoppinho.Sdk.Core.ObjValores
         {
             var multiplicadores = new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
 
-            Regra(VerificarDigito(9, multiplicadores), 
+            Regra(VerificarDigito(9, multiplicadores),
                 new Erro("CPF_PRIMEIRO_DIGITO_VERIFICADOR_INVALIDO", "O primeiro dígito verificador é inválido"));
         }
 
         protected override void VerificarSegundoDigito()
         {
             var multiplicadores = new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-            Regra(VerificarDigito(10, multiplicadores), 
+            Regra(VerificarDigito(10, multiplicadores),
                 new Erro("CPF_SEGUNDO_DIGITO_VERIFICADOR_INVALIDO", "O segundo dígito verificador é inválido"));
         }
 
