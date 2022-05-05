@@ -14,9 +14,12 @@ namespace Shoppinho.Sdk.Core.ObjValores
         public override void Validar()
         {
             ValidarTamanho();
-            TodosDigitosIguais();
-            VerificarPrimeiroDigito();
-            VerificarSegundoDigito();
+            if (EhValido)
+            {
+                TodosDigitosIguais();
+                VerificarPrimeiroDigito();
+                VerificarSegundoDigito();
+            }
         }
 
         protected override void VerificarPrimeiroDigito()
@@ -29,7 +32,7 @@ namespace Shoppinho.Sdk.Core.ObjValores
 
         protected override void VerificarSegundoDigito()
         {
-            var multiplicadores = new int[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };            
+            var multiplicadores = new int[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
             Regra(
                 VerificarDigito(13, multiplicadores),
                 new Erro("CNPJ_SEGUNDO_DIGITO_VERIFICADOR_INVALIDO", "O segundo digito verificador é inválido"));

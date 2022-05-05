@@ -1,4 +1,3 @@
-using System.Linq;
 using Bogus;
 using Bogus.Extensions.Brazil;
 using Shoppinho.Sdk.Core.ObjValores;
@@ -32,7 +31,7 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
             Cpf cpf = new(cpfInvalido);
 
             cpf.Validar();
-            
+
             Assert.False(cpf.EhValido);
             Assert.True(cpf.Erros.Count > 0);
         }
@@ -75,10 +74,8 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         [Fact]
         public void DeveraFalharQuandoInformarCpfInvalido()
         {
-            var numero = _faker.Person.Cpf(false);
-            int criarDigitoFake(int index) => int.Parse(numero[index].ToString()) + 1;
-            numero = $"{numero.Substring(0, 8)}{criarDigitoFake(9)}{criarDigitoFake(10)}";
-            Cpf cpf = new(numero);
+            var numeroInvalido = "64803086047";
+            Cpf cpf = new(numeroInvalido);
 
             cpf.Validar();
             
@@ -94,12 +91,8 @@ namespace Shoppinho.Sdk.Core.Testes.ObjValores
         [InlineData("00100200304", "001.002.003-04")]
         public void DeveraRetornarNumeroFormatado(string numeroSemFormatacao, string valorEsperado)
         {
-            var cpf = new Cpf(numeroSemFormatacao);  
-
-            cpf.Validar();
-                      
+            var cpf = new Cpf(numeroSemFormatacao);                      
             Assert.Equal(valorEsperado, cpf.NumeroFormatado);
-            Assert.True(cpf.Erros.Count == 0);
         }
     }
 }

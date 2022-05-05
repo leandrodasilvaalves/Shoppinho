@@ -33,12 +33,14 @@ namespace Shoppinho.Sdk.Core.ObjValores.ObjValores
 
         protected void TodosDigitosIguais()
         {
+            //TODO: melhorar essa lógica de modo que fique mais semâtico
+            //tá um pouco estranho ter que negar a variável "todosIguais"
             var todosIguais = true;
             for (var i = 1; i < _tamanhoMaximo && todosIguais; i++)
                 if (Numero[i] != Numero[0])
                     todosIguais = false;
-
-            Regra(todosIguais,
+            
+            Regra(!todosIguais,
                 new Erro($"{_nomeDocumento}_DIGITOS_IGUAIS", "Todos os dígitos informados são iguais"));
         }
 
@@ -63,8 +65,8 @@ namespace Shoppinho.Sdk.Core.ObjValores.ObjValores
 
         protected void ValidarTamanho()
         {
-            var tamanhoValido = Numero?.Length == _tamanhoMaximo;
-            Regra(!tamanhoValido,
+            var tamanhoValido = Numero?.Length == _tamanhoMaximo;            
+            Regra(tamanhoValido,
                 new Erro($"{_nomeDocumento}_TAMANHO_INVALIDO", "A quantidade de caracteres é inválida."));
         }
 
